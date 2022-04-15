@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Nedopušten pristup";
+    if (ViewBag.Ulogiran == "true")
+    {
+        Layout = "_LoginLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
+<div class="container container-fluid">
+    <div class="wrapper">
+        <div class="center">
+            <h1 class="text-danger"><strong>Nemate autorizaciju za pristup traženoj stranici!</strong></h1>
+            <i class="fa fa-times" style="font-size:200px;color:#FF0039"></i>
+            <p></p>
+            Da biste pristupili sadržaju tražene stranice, <strong>morate se prijaviti</strong> na sustav s računom koji ima odgovarajuće ovlasti.
+            <div class="form-group">
+                <a asp-action="Index" asp-controller="Login" class="btn btn-link"><i class="fa fa-user"></i> Prijavite se na sustav</a> |
+                <a asp-action="Index" asp-controller="Home" class="btn btn-link"><i class="fa fa-clinic-medical"></i> Natrag na početnu stranicu</a>
+            </div>
+        </div>
+            </div>
+        </div>
