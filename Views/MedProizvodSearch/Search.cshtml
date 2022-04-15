@@ -1,0 +1,140 @@
+﻿@model MedEd.ViewModels.MedProizvodViewModel
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+@{
+    ViewData["Title"] = "Rezultati pretrage";
+    if (ViewBag.Ulogiran == "true")
+    {
+        Layout = "_LoginLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
+
+<div class="container container-fluid">
+    <div class="wrapper">
+        <h2>Rezultati pretrage medicinskih proizvoda</h2>
+        <a asp-action="Index" class="btn btn-link"><i class="fa fa-search"></i> Pretraži ponovno</a> | <a href="#"> <i class="fas fa-book-medical"></i> Izvezi rezultate</a>
+        <br />
+        <p></p>
+        <table class="table" id="tableProizvod">
+            <thead>
+                <tr>
+                    <th>
+                        Naziv
+                    </th>
+                    <th>
+                        Namjena
+                    </th>
+                    <th>
+                        Kataloški broj
+                    </th>
+                    <th>
+                        Klasa rizika
+                    </th>
+                    <th>
+                        Proizvođač
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var proizvod in Model.MedProizvodi)
+                {
+                    var dostupnostDiv = "dostupnostDiv" + proizvod.SifraMedProizvod;
+                    <tr>
+                        <td class="text-left">
+                            <a asp-action="Details" asp-route-id="@proizvod.SifraMedProizvod" asp-route-page="@Model.PagingInfo.CurrentPage" class="btn btn-link">@proizvod.NazivMedProizvod</a>
+                        </td>
+                        <td class="text-left">
+                            @proizvod.Namjena
+                        </td>
+                        <td class="text-left">
+                            @proizvod.KataloskiBroj
+                        </td>
+                        <td class="text-left">
+                            @proizvod.Klasa
+                        </td>
+                        <td class="text-left">
+                            @proizvod.Proizvodjac
+                        </td>
+                        <td>
+                            @if (proizvod.Count != 0)
+                            {
+                                <a asp-action="Prices" asp-route-id="@proizvod.SifraMedProizvod" 
+                                    asp-route-nazivProizvoda="@Model.NazivProizvoda"
+                                    asp-route-namjena="@Model.Namjena" 
+                                    asp-route-klasaRizik="@Model.KlasaRizika" 
+                                    asp-route-kataloskiBroj="@Model.KataloskiBroj"
+                                    asp-route-proizvodjac="@Model.Proizvodjac"
+                                    data-toggle="tooltip" class="btn btn-primary" 
+                                    title="Pogledajte cijene i dostupnost proizvoda po ljekarnama">
+                                    <i class="fa fa-search-dollar"></i>
+                                </a>
+                                <script>
+                                    $(document).ready(function () {
+                                        $('[data-toggle="tooltip"]').tooltip();
+                                    });
+                                </script>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-danger disabled noPrice" title="Ovaj proizvod se ne prodaje u niti jednoj ljekarni!"><i class="fa fa-search-dollar"></i></button>
+                                <script>
+                                    $(function () {
+                                        $('.noPrice').tooltip()
+                                    });
+                                </script>
+                            }
+
+                        </td>
+                    </tr>
+                    <tr id="@dostupnostDiv" stlye="display:none"></tr>
+                }
+            </tbody>
+        </table>
+        <div hidden="@(@Model.PagingInfo.TotalPages == 1)" class="float-left">
+            <ul class="pagination">
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == 1 || @Model.PagingInfo.CurrentPage == 2)">
+                    <a class="page-link" asp-action="Search" asp-route-page="1"
+                       asp-route-nazivProizvoda="@Model.NazivProizvoda"
+                       asp-route-namjena="@Model.Namjena"
+                       asp-route-klasaRizik="@Model.KlasaRizika" 
+                       asp-route-kataloskiBroj="@Model.KataloskiBroj"
+                       asp-route-proizvodjac="@Model.Proizvodjac">Prva</a>
+                </li>
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == 1)">
+                    <a class="page-link" asp-action="Search" asp-route-page="@(@Model.PagingInfo.CurrentPage - 1)"
+                       asp-route-nazivProizvoda="@Model.NazivProizvoda"
+                       asp-route-namjena="@Model.Namjena"
+                       asp-route-klasaRizik="@Model.KlasaRizika" 
+                       asp-route-kataloskiBroj="@Model.KataloskiBroj"
+                       asp-route-proizvodjac="@Model.Proizvodjac">@(@Model.PagingInfo.CurrentPage - 1)</a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link">
+                        @Model.PagingInfo.CurrentPage
+                    </a>
+                </li>
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages)">
+                    <a class="page-link" asp-action="Search" asp-route-page="@(@Model.PagingInfo.CurrentPage + 1)"
+                       asp-route-nazivProizvoda="@Model.NazivProizvoda"
+                       asp-route-namjena="@Model.Namjena"
+                       asp-route-klasaRizik="@Model.KlasaRizika" 
+                       asp-route-kataloskiBroj="@Model.KataloskiBroj"
+                       asp-route-proizvodjac="@Model.Proizvodjac">@(@Model.PagingInfo.CurrentPage + 1)</a>
+                </li>
+                <li class="page-item" hidden="@(Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages || @Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages - 1)">
+                    <a class="page-link" asp-action="Search" asp-route-page="@Model.PagingInfo.TotalPages"
+                       asp-route-nazivProizvoda="@Model.NazivProizvoda"
+                       asp-route-namjena="@Model.Namjena"
+                       asp-route-klasaRizik="@Model.KlasaRizika" 
+                       asp-route-kataloskiBroj="@Model.KataloskiBroj"
+                       asp-route-proizvodjac="@Model.Proizvodjac">Zadnja</a>
+                </li>
+            </ul>
+        </div>
+        <br />
+    </div>
+</div>

@@ -1,0 +1,33 @@
+﻿@model MedEd.Models.LijekLjekarna
+
+<hr/>
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-4">
+            <select asp-for="SifLijek" class="form-control" asp-items="ViewBag.SifLijek"></select>
+        </div>
+        <div class="col-2">
+            <input asp-for="CijenaLijek" class="form-control" />
+            <span asp-validation-for="CijenaLijek" class="text-danger"></span>
+        </div>
+        <div class="col-3">
+            <select asp-for="DostupnostLijek" class="form-control">
+                <option value="Dostupan">Dostupan</option>
+                <option value="Nedostupan">Nedostupan</option>
+            </select>
+            <span asp-validation-for="DostupnostLijek" class="text-danger"></span>
+        </div>
+        <div class="col-2">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <button type="button" id="gumbi2" class="btn btn-danger" onclick="closeNewLijekLjekarnaFunc()"><i class="fa fa-window-close"></i></button>
+                <script>
+                    function closeNewLijekLjekarnaFunc() {
+                        $('#newLijekLjekarnaDiv').fadeOut();
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+</form>

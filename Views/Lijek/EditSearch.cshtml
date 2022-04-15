@@ -1,0 +1,107 @@
+﻿@model MedEd.Models.Lijek
+
+@{
+    ViewData["Title"] = "Ažuriraj";
+    Layout = "_LoginLayout";
+}
+<hr />
+<div class="container container-fluid">
+    <div class="wrapper">
+        <h1>Ažuriraj</h1>
+        <h4>Ažurirajte podatke za @Model.NazivLijek</h4>
+        <hr />
+        <form asp-route-page="@ViewBag.Page" method="post">
+            <div class="row">
+                <div class="col-6">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="SifraLijek" />
+                    <div class="form-group">
+                        <label asp-for="NazivLijek" class="control-label"></label>
+                        <input asp-for="NazivLijek" class="form-control" />
+                        <span asp-validation-for="NazivLijek" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BrojOdobrenja" class="control-label"></label>
+                        <input asp-for="BrojOdobrenja" class="form-control" />
+                        <span asp-validation-for="BrojOdobrenja" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SifDjelatnaTvar" class="control-label"></label>
+                        <select asp-for="SifDjelatnaTvar" class="form-control" asp-items="ViewBag.SifDjelatnaTvar"></select>
+                        <span asp-validation-for="SifDjelatnaTvar" class="text-danger"></span>
+                    </div>
+                    <div class="form-inline">
+                        <label asp-for="Kolicina" class="control-label"></label>
+                        <input asp-for="Kolicina" class="form-control" />
+                        <span asp-validation-for="Kolicina" class="text-danger"></span>
+
+                        <label asp-for="Jedinica" class="control-label"></label>
+                        <select asp-for="Jedinica" class="form-control">
+                            <option value="g">g</option>
+                            <option value="mg">mg</option>
+                            <option value="μg">μg</option>
+                        </select>
+                        <span asp-validation-for="Jedinica" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="GodStavljanjaTrziste" class="control-label"></label>
+                        <input asp-for="GodStavljanjaTrziste" class="form-control" />
+                        <span asp-validation-for="GodStavljanjaTrziste" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NacinIzdavanja" class="control-label"></label>
+                        <input asp-for="NacinIzdavanja" class="form-control" />
+                        <span asp-validation-for="NacinIzdavanja" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NaTrzistu" class="control-label"></label>
+                        <select asp-for="NaTrzistu" class="form-control">
+                            <option value="DA">DA</option>
+                            <option value="NE">NE</option>
+                        </select>
+                        <span asp-validation-for="NaTrzistu" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SifFarmOblik" class="control-label"></label>
+                        <select asp-for="SifFarmOblik" class="form-control" asp-items="ViewBag.SifFarmOblik"></select>
+                        <span asp-validation-for="SifFarmOblik" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SifVrstaLijek" class="control-label"></label>
+                        <select asp-for="SifVrstaLijek" class="form-control" asp-items="ViewBag.SifVrstaLijek"></select>
+                        <span asp-validation-for="SifVrstaLijek" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SifProizvodjac" class="control-label"></label>
+                        <select asp-for="SifProizvodjac" class="form-control" asp-items="ViewBag.SifProizvodjac"></select>
+                        <span asp-validation-for="SifProizvodjac" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SifNositelj" class="control-label"></label>
+                        <select asp-for="SifNositelj" class="form-control" asp-items="ViewBag.SifNositelj"></select>
+                        <span asp-validation-for="SifNositelj" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Spremi promjene" class="btn btn-primary" />
+                        <a asp-action="Search"
+                           asp-route-page="@ViewBag.Page"
+                           asp-route-naziv="@ViewBag.Naziv"
+                           asp-route-vrsta="@ViewBag.Vrsta"
+                           asp-route-brOd="@ViewBag.Br"
+                           asp-route-tvar="@ViewBag.Tvar"
+                           asp-route-jedinica="@ViewBag.Jedinica"
+                           asp-route-kolicina="@ViewBag.Kolicina"
+                           asp-route-pro="@ViewBag.Pro"
+                           asp-route-oblik="@ViewBag.Oblik"
+                           asp-route-nositelj="@ViewBag.Nositelj"
+                           asp-route-god="@ViewBag.God"
+                           class="btn btn-secondary">Odustani</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

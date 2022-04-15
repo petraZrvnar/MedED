@@ -1,0 +1,66 @@
+﻿@model MedEd.Models.Ljekarna
+
+
+        <h4>Ažurirajte podatke za @Model.NazivLjekarna</h4>
+        <hr />
+        <form asp-route-page="@ViewBag.Page"             
+              method="post">
+            <div class="row">
+                <div class="col-6">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="SifraLjekarna" />
+                    <div class="form-group">
+                        <label asp-for="NazivLjekarna" class="control-label"></label>
+                        <input asp-for="NazivLjekarna" class="form-control" />
+                        <span asp-validation-for="NazivLjekarna" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AdresaLjekarna" class="control-label"></label>
+                        <input asp-for="AdresaLjekarna" class="form-control" />
+                        <span asp-validation-for="AdresaLjekarna" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="KontaktBroj" class="control-label"></label>
+                        <input asp-for="KontaktBroj" class="form-control" />
+                        <span asp-validation-for="KontaktBroj" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmailLjekarna" class="control-label"></label>
+                        <input asp-for="EmailLjekarna" class="form-control" />
+                        <span asp-validation-for="EmailLjekarna" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RadnoVrijeme" class="control-label"></label>
+                        <input asp-for="RadnoVrijeme" class="form-control" />
+                        <span asp-validation-for="RadnoVrijeme" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SifMjesto" class="control-label"></label>
+                        <select asp-for="SifMjesto" class="form-control" asp-items="ViewBag.SifMjesto"></select>
+                        <span asp-validation-for="SifMjesto" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SifVrstaLjekarna" class="control-label"></label>
+                        <select asp-for="SifVrstaLjekarna" class="form-control" asp-items="ViewBag.SifVrstaLjekarna"></select>
+                        <span asp-validation-for="SifVrstaLjekarna" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Spremi promjene" class="btn btn-primary" />
+                        <a asp-action="Search"
+                           asp-route-page="@ViewBag.Page"
+                           asp-route-naziv="@ViewBag.Naziv"
+                           asp-route-adresa="@ViewBag.Adresa"
+                           asp-route-mjesto="@ViewBag.Mjesto"
+                           asp-route-kontakt="@ViewBag.Kontakt"
+                           asp-route-vrsta="@ViewBag.Vrsta"
+                           class="btn btn-secondary">Odustani</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<hr />
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

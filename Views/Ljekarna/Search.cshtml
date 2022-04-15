@@ -1,0 +1,194 @@
+﻿@model MedEd.ViewModels.LjekarneAdminViewModel
+
+@{
+    ViewData["Title"] = "Popis ljekarni";
+    Layout = "_LoginLayout";
+}
+
+<div class="container container-fluid">
+    <div class="wrapper">
+        <h2>Rezultati pretrage </h2>
+        <hr />
+        <div class="form-group">
+            <a class="btn btn-link" asp-area="" asp-action="Index"><i class="fa fa-arrow-left"></i> Natrag na popis</a>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary" id="searchLjekarna" onclick="searchLjekarnaFunc()"><i class="fa fa-search"></i> Pretraži listu</button>
+            <a class="btn btn-danger" asp-area="" asp-action="Index"><i class="fa fa-window-close"></i> Ukloni kriterije</a>
+        </div>
+        <script>
+            function searchLjekarnaFunc() {
+                $('#searchLjekarnaDiv').fadeIn();
+            }
+        </script>
+        <div style="display:none" id="searchLjekarnaDiv">
+            <form asp-controller="Ljekarna" asp-action="Search" method="get">
+                <div class="row">
+                    <div class="col-2">
+                        <input type="text" name="naziv" id="naziv" class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <input type="text" name="adresa" id="adresa" class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <select class="form-control" id="mjestoLjekarna" name="mjesto">
+                            <option value="Sva mjesta">Sva mjesta</option>
+                            <option value="Zagreb">Zagreb</option>
+                            <option value="Bakar">Bakar</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <input type="text" name="kontakt" class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <select class="form-control" id="sifVrstaLjekarna" name="vrsta">
+                            <option value="Sve vrste">Sve vrste</option>
+                            <option value="Bolnička ljekarna">Bolnička ljekarna</option>
+                            <option value="Klinička ljekarna">Klinička ljekarna</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                            <button type="button" class="btn btn-danger" onclick="odustaniSearchFunc()"><i class="fa fa-window-close"></i></button>
+                            <script>
+                                function odustaniSearchFunc() {
+                                    $('#searchLjekarnaDiv').fadeOut();
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <p></p>
+        <div id="editLjekarnaDiv" style="display:none"></div>
+        <p></p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Naziv
+                    </th>
+                    <th>
+                        Adresa
+                    </th>
+                    <th>
+                        Mjesto
+                    </th>
+                    <th>
+                        Kontakt
+                    </th>
+                    <th>
+                        Vrsta ljekarne
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ljekarna in Model.Ljekarne)
+                {
+                    using (Html.BeginForm("Delete", "Ljekarna", new { id = ljekarna.SifraLjekarna, page = Model.PagingInfo.CurrentPage }))
+                    {
+                        var deleteForm = "deleteForm" + ljekarna.SifraLjekarna;
+                        var id = ljekarna.SifraLjekarna;
+                        <tr>
+                            <td class="text-left" style="width:17%">
+                                <a asp-action="DetailsSearch" asp-route-id="@ljekarna.SifraLjekarna"
+                                   asp-route-page="@Model.PagingInfo.CurrentPage"
+                                   asp-route-naziv="@Model.Naziv"
+                                   asp-route-adresa="@Model.Adresa"
+                                   asp-route-mjesto="@Model.Mjesto"
+                                   asp-route-kontakt="@Model.Kontakt"
+                                   asp-route-vrsta="@Model.Vrsta">@ljekarna.NazivLjekarna</a>
+                            </td>
+                            <td class="text-left" style="width:17%">
+                                @ljekarna.AdresaLjekarna
+                            </td>
+                            <td class="text-left" style="width:17%">
+                                @ljekarna.Mjesto
+                            </td>
+                            <td class="text-left" style="width:17%">
+                                @ljekarna.KontaktBroj
+                            </td>
+                            <td class="text-left" style="width:17%">
+                                @ljekarna.VrstaLjekarna
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm"
+                                        onclick="var url = '@Url.Action("Edit", "Ljekarna", new { id = id, page = Model.PagingInfo.CurrentPage })';$('#editLjekarnaDiv').fadeIn();
+                                            $('#editLjekarnaDiv').load(url);">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm delete"
+                                        data-target="#@deleteForm" data-toggle="modal">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <div class="modal fade" id="@deleteForm" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" role="document">
+                                        <div class="modal-header">
+                                            <h3 class="modal-title">Želite li stvarno orbisati ljekarnu @ljekarna.NazivLjekarna?</h3>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" value="U redu" class="btn btn-danger" />
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <br />
+        <div hidden="@(@Model.PagingInfo.TotalPages == 1)" class="float-left">
+            <ul class="pagination">
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == 1 || @Model.PagingInfo.CurrentPage == 2)">
+                    <a class="page-link" asp-action="Search" asp-route-page="1"
+                       asp-route-naziv="@Model.Naziv"
+                       asp-route-adresa="@Model.Adresa"
+                       asp-route-mjesto="@Model.Mjesto"
+                       asp-route-kontakt="@Model.Kontakt"
+                       asp-route-vrsta="@Model.Vrsta">Prva</a>
+                </li>
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == 1)">
+                    <a class="page-link" asp-action="Search" asp-route-page="@(@Model.PagingInfo.CurrentPage - 1)"
+                       asp-route-naziv="@Model.Naziv"
+                       asp-route-adresa="@Model.Adresa"
+                       asp-route-mjesto="@Model.Mjesto"
+                       asp-route-kontakt="@Model.Kontakt"
+                       asp-route-vrsta="@Model.Vrsta">@(@Model.PagingInfo.CurrentPage - 1)</a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link">
+                        @Model.PagingInfo.CurrentPage
+                    </a>
+                </li>
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages)">
+                    <a class="page-link" asp-action="Search" asp-route-page="@(@Model.PagingInfo.CurrentPage + 1)"
+                       asp-route-naziv="@Model.Naziv"
+                       asp-route-adresa="@Model.Adresa"
+                       asp-route-mjesto="@Model.Mjesto"
+                       asp-route-kontakt="@Model.Kontakt"
+                       asp-route-vrsta="@Model.Vrsta">@(@Model.PagingInfo.CurrentPage + 1)</a>
+                </li>
+                <li class="page-item" hidden="@(Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages || @Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages - 1)">
+                    <a class="page-link" asp-action="Search" asp-route-page="@Model.PagingInfo.TotalPages"
+                       asp-route-naziv="@Model.Naziv"
+                       asp-route-adresa="@Model.Adresa"
+                       asp-route-mjesto="@Model.Mjesto"
+                       asp-route-kontakt="@Model.Kontakt"
+                       asp-route-vrsta="@Model.Vrsta">Zadnja</a>
+                </li>
+            </ul>
+        </div>
+        <br />
+    </div>
+</div>
+

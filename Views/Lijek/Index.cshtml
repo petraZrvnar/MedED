@@ -1,0 +1,284 @@
+﻿@model MedEd.ViewModels.LijekoviViewModel
+
+@{
+    ViewData["Title"] = "Popis lijekova";
+    Layout = "_LoginLayout";
+}
+
+<div class="container container-fluid">
+    <div class="wrapper">
+        <h2>Popis lijekova u sustavu</h2>
+        <hr />
+        <div class="row">
+            <div class="col-9">
+                @if (Model != null && Model.BezRezultata)
+                {
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Nije pronađen niti jedan lijek.</strong> Promijenite kriterije pretrage i pokušajte pretražiti ponovno.
+                    </div>
+                }
+                else if (Model != null && Model.Obrisano)
+                {
+                    <div class="alert alert-dismissible alert-primary">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        Lijek <strong>@Model.Poruka</strong> uspješno obrisan.
+                    </div>
+                }
+                else if (Model != null && Model.Azurirano)
+                {
+                    <div class="alert alert-dismissible alert-primary">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        Podatci za lijek <strong>@Model.Poruka</strong> su uspješno ažurirani.
+                    </div>
+                }
+                else if (Model != null && Model.Dodano)
+                {
+                    <div class="alert alert-dismissible alert-primary">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        Novi lijek <strong>@Model.Poruka</strong> je uspješno dodan.
+                    </div>
+                }
+                else if (Model != null && Model.Greska)
+                {
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Došlo je do greške prilikom brisanja: </strong> @Model.Exc
+                    </div>
+                }
+                else if (Model != null && Model.GreskaDodavanje)
+                {
+                    string[] greske = Model.PorukaDodavanje.Split(";");
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Došlo je do greške prilikom dodavanja ljekarne: </strong>
+                        Neki podatci nedostaju ili nisu ispravni:
+                        <ul>
+                            @for (int i = 0; i < greske.Length - 1; ++i)
+                            {
+                                <li>@greske[i]</li>
+                            }
+                        </ul>
+                        <strong>Ispravite greške i pokušajte ponovno.</strong>
+                    </div>
+                }
+                else if (Model != null && Model.GreskaEdit)
+                {
+                    string[] greske = Model.PorukaDodavanje.Split(";");
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Došlo je do greške prilikom ažuriranja ljekarne: </strong>
+                        Neki podatci nedostaju ili nisu ispravni:
+                        <ul>
+                            @for (int i = 0; i < greske.Length - 1; ++i)
+                            {
+                                <li>@greske[i]</li>
+                            }
+                        </ul>
+                        <strong>Ispravite greške i pokušajte ponovno.</strong>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary" onclick="createLijekFunc()"><i class="fa fa-plus"></i> Novi lijek</button>
+            <script>
+                function createLijekFunc() {
+                    var url = '@Url.Action("Create", "Lijek")';
+                    $('#newLijekDiv').fadeIn();
+                    $('#newLijekDiv').load(url);
+                }
+            </script>
+            <button type="button" class="btn btn-primary" onclick="searchLijekFunc()"><i class="fa fa-search"></i> Pretraži listu</button>
+            <script>
+                function searchLijekFunc() {
+                    $('#searchLijekDiv').fadeIn();
+                }
+            </script>
+        </div>
+        <div style="display:none" id="searchLijekDiv">
+                    <form asp-controller="Lijek" asp-action="Search" method="get">
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="naziv">Naziv lijeka:</label>
+                                <input type="text" name="naziv" class="form-control" id="naziv">
+                            </div>
+                            <div class="col-3">
+                                <label for="brOd">Broj odobrenja:</label>
+                                <input type="text" name="brOd" class="form-control" id="brOd">
+                            </div>
+                            <div class="col-3">
+                                <label for="vrsta">Vrsta lijeka:</label>
+                                <select class="form-control" id="vrsta" name="vrsta">
+                                    <option value="Sve vrste">Sve vrste</option>
+                                    <option value="Lijek na recept">Lijek na recept</option>
+                                    <option value="Tradicionalni biljni lijek">Tradicionalni biljni lijek</option>
+                                    <option value="Bezreceptni lijek">Bezreceptni lijek</option>
+                                    <option value="Homeopatski lijek">Homeopatski lijek</option>
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <label for="oblik">Farmaceutski oblik:</label>
+                                <select class="form-control" id="oblik" name="oblik">
+                                    <option value="Svi oblici">Svi oblici</option>
+                                    <option value="Tableta">Tableta</option>
+                                    <option value="Otopina">Otopina</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="tvar">Djelatna tvar:</label>
+                                <input type="text" name="tvar" id="tvar" class="form-control">
+                            </div>
+                            <div class="col-3">
+                                <label for="kolicina">Količina djelatne tvari:</label>
+                                <input type="number" name="kolicina" id="kolicina" class="form-control">
+                            </div>
+                            <div class="col-3">
+                                <label for="jedinica">Jedinica:</label>
+                                <select class="form-control" id="jedinica" name="jedinica">
+                                    <option value="--">--</option>
+                                    <option value="g">g</option>
+                                    <option value="mg">mg</option>
+                                    <option value="μg">μg</option>
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <label for="proizvodjac">Proizvođač:</label>
+                                <select class="form-control" id="proizvodjac" name="pro">
+                                    <option value="Svi proizvođači">Svi proizvođači</option>
+                                    <option value="Belupo lijekovi i kozmetika d.d">Belupo lijekovi i kozmetika d.d</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="nositelj">Nositelj odobrenja:</label>
+                                <select class="form-control" id="nositelj" name="nositelj">
+                                    <option value="Svi nositelji">Svi nositelji</option>
+                                    <option value="Belupo lijekovi i kozmetika d.d">Belupo lijekovi i kozmetika d.d</option>
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <label for="god">Godina stavljanja lijeka na tržište:</label>
+                                <input type="number" name="god" class="form-control" id="god">
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="gumb4"></label>
+                                    <button type="submit" id="gumb4" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                                    <button type="button" class="btn btn-danger" onclick="odustaniSearchLijekFunc()"><i class="fa fa-window-close"></i></button>
+                                    <script>
+                                        function odustaniSearchLijekFunc() {
+                                            $('#searchLijekDiv').fadeOut();
+                                        }
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+        </div>
+        <p></p>
+        <div id="newLijekDiv" style="display:none"></div>
+        <p></p>
+        <div id="editLijekDiv" style="display:none"></div>
+        <p></p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Naziv
+                    </th>
+                    <th>
+                        Broj odobrenja
+                    </th>
+                    <th>
+                        Djelatna tvar
+                    </th>
+                    <th>
+                        Količina
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var lijek in Model.Lijekovi)
+                {
+                    using (Html.BeginForm("Delete", "Lijek", new { id = lijek.SifraLijek, page = Model.PagingInfo.CurrentPage }))
+                    {
+                        var deleteForm = "deleteForm" + lijek.SifraLijek;
+                        var id = lijek.SifraLijek;
+                        <tr>
+                            <td class="text-left">
+                                <a asp-action="Details" asp-route-id="@lijek.SifraLijek"
+                                   asp-route-page="@Model.PagingInfo.CurrentPage">@lijek.NazivLijek</a>
+                            </td>
+                            <td class="text-left">
+                                @lijek.BrojOdobrenja
+                            </td>
+                            <td class="text-left">
+                                @lijek.DjelatnaTvar
+                            </td>
+                            <td class="text-left">
+                                @lijek.Kolicina @lijek.Jedinica
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm"
+                                        onclick="var url = '@Url.Action("Edit", "Lijek", new { id = id, page = Model.PagingInfo.CurrentPage })';$('#editLijekDiv').fadeIn();
+                                            $('#editLijekDiv').load(url);">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm delete"
+                                        data-target="#@deleteForm" data-toggle="modal">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <div class="modal fade" id="@deleteForm" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" role="document">
+                                        <div class="modal-header">
+                                            <h3 class="modal-title">Želite li stvarno orbisati lijek @lijek.NazivLijek?</h3>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" value="U redu" class="btn btn-danger" />
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <br />
+        <div hidden="@(@Model.PagingInfo.TotalPages == 1)" class="float-left">
+            <ul class="pagination">
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == 1 || @Model.PagingInfo.CurrentPage == 2)">
+                    <a class="page-link" asp-action="Index" asp-route-page="1">Prva</a>
+                </li>
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == 1)">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(@Model.PagingInfo.CurrentPage - 1)">@(@Model.PagingInfo.CurrentPage - 1)</a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link">
+                        @Model.PagingInfo.CurrentPage
+                    </a>
+                </li>
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages)">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(@Model.PagingInfo.CurrentPage + 1)">@(@Model.PagingInfo.CurrentPage + 1)</a>
+                </li>
+                <li class="page-item" hidden="@(Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages || @Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages - 1)">
+                    <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages">Zadnja</a>
+                </li>
+            </ul>
+        </div>
+        <br />
+    </div>
+</div>

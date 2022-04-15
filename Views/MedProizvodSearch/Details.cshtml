@@ -1,0 +1,84 @@
+﻿@model MedEd.Models.MedicinskiProizvod
+
+@{
+    ViewData["Title"] = "Detalji o medicinskom proizvodu";
+    if (ViewBag.Ulogiran == "true")
+    {
+        Layout = "_LoginLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
+<div class="container container-fluid">
+    <div class="wrapper">
+        <a asp-action="Search" asp-route-nazivProizvoda="@ViewBag.Naziv"
+           asp-route-namjena="@ViewBag.Namjena" asp-route-klasaRizik="@ViewBag.Klasa"
+           asp-route-kataloskiBroj="@ViewBag.KatBr" asp-route-proizvodjac="@ViewBag.Pro"
+           asp-route-page="@ViewBag.Page"
+           class="btn btn-link"><i class="fa fa-arrow-left"></i> Natrag</a>
+        <p></p>
+        <div class="card border-primary mb-3">
+            <div class="card-body">
+                <h4 class="card-title text-primary">@Model.NazivMedProizvod</h4>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Namjena:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.Namjena
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Kataloški broj:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.KataloskiBroj
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Klasa rizika:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.SifKlasaNavigation.OznKlasaRizika
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Proizvođač:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.SifProizvodjacNavigation.NazivProizvodjac
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Sjedište proizvođača:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.SifProizvodjacNavigation.Sjediste
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        E-mail proizvođača:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.SifProizvodjacNavigation.EmailProizvodjac
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Web sjedište proizvođača:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.SifProizvodjacNavigation.WebSiteProizvodjac
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+﻿@model MedEd.Models.RegistriraniKorisnik
+
+@{
+    ViewData["Title"] = "Detalji o korisniku";
+    Layout = "_LoginLayout";
+}
+<div class="container container-fluid">
+    <div class="wrapper">
+        <a asp-action="Index" asp-route-page="@ViewBag.Page" class="btn btn-link"><i class="fa fa-arrow-left"></i> Natrag</a>
+        <p></p>
+        <div class="card border-primary mb-3">
+            <div class="card-body">
+                <h4 class="card-title text-primary">@Model.Ime  @Model.Prezime</h4>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Korisničko ime:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.KorisnickoIme
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Ime:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.Ime
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Prezime:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.Prezime
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        E-mail:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.EmailKorisnik
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Uloga:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.SifUlogaNavigation.OpisUloga
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Ljekarna:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @if (Model.SifLjekarnaNavigation == null)
+                        {
+                            <strong><text class="text-danger">Ovaj korisnik trenutno nije zaposlen u niti jednoj ljekarni.</text></strong>
+                        }
+                        else
+                        {
+                            @Model.SifLjekarnaNavigation.NazivLjekarna
+                        }
+                    </dd>
+                </dl>                
+            </div>
+        </div>
+    </div>
+</div>

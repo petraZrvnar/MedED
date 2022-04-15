@@ -1,0 +1,92 @@
+﻿@model MedEd.ViewModels.MedProizvodViewModel
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+@{
+    ViewData["Title"] = "Pretrga medicinskih proizvoda";
+    if (ViewBag.Ulogiran == "true")
+    {
+        Layout = "_LoginLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
+<div class="container container-fluid">
+    <div class="wrapper" style="padding-left:50px">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-link"><i class="fa fa-arrow-left"></i> Natrag na početnu</a>
+        <p></p>
+        <div class="center">
+            <h1>Pretraga medicinskih proizvoda</h1>
+            <hr />
+            <div class="row">
+                <div style="width:12%"></div>
+                <div class="col-9">
+                    @if (Model != null && Model.BezRezultata)
+                    {
+                        <div class="alert alert-dismissible alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Nije pronađen niti jedan rezultat! </strong> Promjenite kriterije pretrage i pretražite ponovno.
+                        </div>
+                    }
+                </div>
+            </div>
+            <img src="~/slike/proSearch.png" alt="Pretraga medicinskih proizvoda" class="img-fluid" style="width:50%; height:40%" />
+            <p></p>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-sm-8">
+                    U nastavku možete potražiti određeni mediciski proizvod navodeći kriterije pretrage. Kriteriji pretrage se mogu međusobno kombinirati, a pojedini kriterij može biti izostavljen.
+                </div>
+            </div>
+        </div>
+            <p></p>
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6" style="background-color:#d4e6f9;color:#144376">
+                    <p></p>
+                    <div class="form-group">
+                        <form asp-controller="MedProizvodSearch" asp-action="Search" method="get">
+                            <div class="form-group">
+                                <label for="nazivMed">Naziv medicinskog proizvoda:</label>
+                                <input type="text" name="nazivProizvoda" class="form-control" id="nazivMed">
+                            </div>
+                            <div class="form-group">
+                                <label for="namjena">Namjena: <i id="namjenaPit" class="fa fa-question text-muted" title="Namjena medicinskog proizvoda npr. tlakomjer, toplomjer..."></i></label>
+                                <input type="text" name="namjena" class="form-control" id="namjena">
+                            </div>
+                            <div class="form-group">
+                                <label for="klasaRizik">Klasa rizika:</label>
+                                <select class="form-control" id="klasaRizik" name="klasaRizik">
+                                    <option value="Sve klase">Sve klase</option>
+                                    <option value="I">I</option>
+                                    <option value="II">II</option>
+                                    <option value="IIa">IIa</option>
+                                    <option value="III">III</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="katBr">Kataloški broj:</label>
+                                <input type="text" name="kataloskiBroj" id="katBr" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="proizvodjac">Proizvođač:</label>
+                                <select class="form-control" id="proizvodjac" name="proizvodjac">
+                                    <option value="Svi proizvođači">Svi proizvođači</option>
+                                    <option value="A&D Company, Ltd., Japan">A&D Company, Ltd., Japan</option>
+                                    <option value="Artsana S.p.A., Italija">Artsana S.p.A., Italija</option>
+                                </select>
+                            </div>
+                            <div class="center">
+                                <input type="submit" value="Pretraži" class=" btn btn-secondary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#namjenaPit').tooltip()
+    });
+</script>

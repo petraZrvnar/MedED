@@ -1,0 +1,37 @@
+﻿@model MedEd.Models.LijekLjekarna
+
+<hr />
+<form asp-action="Edit" asp-route-page="@ViewBag.Page" method="post">
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="SifLijek" />
+        <input type="hidden" asp-for="SifLjekarna" />
+        <div class="col-4">
+            <fieldset disabled="">
+                <input class="form-control" id="disabledInput" type="text" placeholder="@ViewBag.Ime" disabled="">
+            </fieldset>
+        </div>
+        <div class="col-2">
+            <input asp-for="CijenaLijek" class="form-control" />
+            <span asp-validation-for="CijenaLijek" class="text-danger"></span>
+        </div>
+        <div class="col-3">
+            <select asp-for="DostupnostLijek" class="form-control">
+                <option value="Dostupan">Dostupan</option>
+                <option value="Nedostupan">Nedostupan</option>
+            </select>
+            <span asp-validation-for="DostupnostLijek" class="text-danger"></span>
+        </div>
+        <div class="col-2">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <button type="button" id="gumbi" class="btn btn-danger" onclick="closeEditLijekLjekarnaDivFunc()"><i class="fa fa-window-close"></i></button>
+                <script>
+                    function closeEditLijekLjekarnaDivFunc() {
+                        $('#editLijekLjekarnaDiv').fadeOut();
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+</form>

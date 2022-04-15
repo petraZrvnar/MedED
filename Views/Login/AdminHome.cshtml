@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Početna administrator";
+    Layout = "_LoginLayout";
+}
+<div class="container container-fluid">
+    <div class="wrapper">
+        <h1>Dobro došli!</h1>
+        <p>Odaberite koje podatke želite uređivati u sustavu:</p>
+        <div class="container container-fluid">
+            <div class="row">
+                <div class="col-3">
+                    <div class="center">
+                        <img src="~/slike/kisspng-medicine-health-care-pharmaceutical-drug-physician-mask-health-5b23c2322eeaa1.7715476415290701301922.png" class="img-fluid" alt="Uredi lijekove" />
+                        <p></p>
+                          <a class="btn btn-secondary" asp-area="" asp-controller="Lijek" asp-action="Index">Lijekovi</a>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="center">
+                        <img src="~/slike/adminmed.png" class="img-fluid" />
+                        <p></p>
+                          <a class="btn btn-secondary" asp-area="" asp-controller="MedicinskiProizvod" asp-action="Index">Med. proizvodi</a>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="center">
+                        <img src="~/slike/kisspng-medicine-health-care-hospital-computer-icons-clini-bone-fracture-5b24cae372df04.2158961715291378914705.png" class="img-fluid" />
+                        <p></p>
+                          <a class="btn btn-secondary" asp-area="" asp-controller="Ljekarna" asp-action="Index">Ljekarne</a>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="center">
+                        <img src="~/slike/korisnikAdmina.png" class="img-fluid" alt="Uredi korisnike" />
+                        <p></p>
+                            <a class="btn btn-secondary" asp-controller="RegistriraniKorisnik" asp-action="Index">Korisnici</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

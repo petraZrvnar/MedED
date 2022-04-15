@@ -1,0 +1,196 @@
+﻿@model MedEd.ViewModels.LijekLjekarnaAdminViewModel
+
+@{
+    ViewData["Title"] = "Popis lijekova po ljekarni";
+    Layout = "_LoginLayout";
+}
+
+<div class="container container-fluid">
+    <div class="wrapper">
+        <h2>Rezultati pretrage lijekova za ljekarnu <a asp-action="DetailsSearchLjekarna" 
+         asp-route-page="@Model.PagingInfo.CurrentPage" asp-route-id="@Model.Ljekarna"
+         asp-route-naziv="@Model.Naziv"
+         asp-route-br="@Model.Br"
+         asp-route-tvar="@Model.Tvar"
+         asp-route-dostupnost="@Model.Dostupnost"
+         asp-route-vrsta="@Model.Vrsta"
+         asp-route-cijena="@Model.Cijena">@Model.NazivLjekarna</a></h2>
+        <hr/>
+        <div class="form-group">
+            <a asp-action="Index" class="btn btn-link"><i class="fa fa-arrow-left"></i> Natrag na popis</a>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary" onclick="searchLijekLjekarnaFunc()"><i class="fa fa-search"></i> Pretraži listu</button>
+            <a class="btn btn-danger" asp-area="" asp-action="Index"><i class="fa fa-window-close"></i> Ukloni kriterije</a>
+        </div>      
+        <script>
+            function searchLijekLjekarnaFunc() {
+                $('#searchLijekLjekarnaDiv').fadeIn();
+            }
+        </script>
+         <div style="display:none" id="searchLijekLjekarnaDiv">
+            <hr/>
+            <form asp-controller="LijekLjekarna" asp-action="Search" method="get">
+                <div class="row">
+                    <div class="col-4">
+                        <input type="text" name="naziv" class="form-control" id="naziv">
+                    </div>
+                    <div class="col-2">
+                        <select class="form-control" id="cijena" name="cijena">
+                            <option value="--">--</option>
+                            <option value="Manja od 50kn">Manja od 50kn</option>
+                            <option value="Od 50 do 100kn">Od 50 do 100kn</option>
+                            <option value="Viša od 100kn">Viša od 100kn</option>
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <select class="form-control" id="dostupnost" name="dostupnost">
+                            <option value="--">--</option>
+                            <option value="Dostupan">Dostupan</option>
+                            <option value="Nedostupan">Nedostupan</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                            <button type="button" class="btn btn-danger" onclick="odustaniSearchLijekLjekarnaFunc()"><i class="fa fa-window-close"></i></button>
+                            <script>
+                                function odustaniSearchLijekLjekarnaFunc() {
+                                    $('#searchLijekLjekarnaDiv').fadeOut();
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <p></p>
+        <div id="editLijekLjekarnaDiv" style="display:none"></div>
+        <p></p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Naziv
+                    </th>
+                    <th>
+                        Cijena
+                    </th>
+                    <th>
+                        Dostupnost
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var lijek in Model.Lijekovi)
+                {
+                    using (Html.BeginForm("Delete", "LijekLjekarna", new { id = lijek.SifLijek, page = Model.PagingInfo.CurrentPage }))
+                    {
+                        var deleteForm = "deleteForm" + lijek.SifLijek;
+                        var id = lijek.SifLijek;
+                    <tr>
+                        <td class="text-left" style="width:35%">
+                            <a asp-action="DetailsSearchLijek" asp-route-id="@lijek.SifLijek"
+                               asp-route-page="@Model.PagingInfo.CurrentPage"
+                               asp-route-naziv="@Model.Naziv"
+                               asp-route-br="@Model.Br"
+                               asp-route-tvar="@Model.Tvar"
+                               asp-route-dostupnost="@Model.Dostupnost"
+                               asp-route-vrsta="@Model.Vrsta"
+                               asp-route-cijena="@Model.Cijena" >@lijek.NazivLijek</a>
+                        </td>
+                        <td class="text-left" style="width:17%">
+                            <strong>@lijek.CijenaLijek</strong>
+                        </td>
+                        <td class="text-left" style="width:25%">
+                            @if (lijek.DostupnostLijek == "Dostupan")
+                            {
+                                <strong><p class="text-primary">@lijek.DostupnostLijek</p></strong>
+                            }
+                            else
+                            {
+                                <strong><p class="text-danger">@lijek.DostupnostLijek</p></strong>
+                            }
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm"
+                                    onclick="var url = '@Url.Action("Edit", "LijekLjekarna", new { id = id, page = Model.PagingInfo.CurrentPage })';$('#editLijekLjekarnaDiv').fadeIn();
+                                            $('#editLijekLjekarnaDiv').load(url);">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm delete"
+                                    data-target="#@deleteForm" data-toggle="modal">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <div class="modal fade" id="@deleteForm" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content" role="document">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">Želite li stvarno orbisati lijek @lijek.NazivLijek?</h3>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="submit" value="U redu" class="btn btn-danger" />
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <br/>
+         <div hidden="@(@Model.PagingInfo.TotalPages == 1)" class="float-left">
+            <ul class="pagination">
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == 1 || @Model.PagingInfo.CurrentPage == 2)">
+                    <a class="page-link" asp-action="Search" asp-route-page="1"
+                     asp-route-naziv="@Model.Naziv"
+                     asp-route-br="@Model.Br"
+                     asp-route-tvar="@Model.Tvar"
+                     asp-route-dostupnost="@Model.Dostupnost"
+                     asp-route-vrsta="@Model.Vrsta"
+                     asp-route-cijena="@Model.Cijena">Prva</a>
+                </li>
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == 1)">
+                    <a class="page-link" asp-action="Search" asp-route-page="@(@Model.PagingInfo.CurrentPage - 1)"
+                     asp-route-naziv="@Model.Naziv"
+                     asp-route-br="@Model.Br"
+                     asp-route-tvar="@Model.Tvar"
+                     asp-route-dostupnost="@Model.Dostupnost"
+                     asp-route-vrsta="@Model.Vrsta"
+                     asp-route-cijena="@Model.Cijena">@(@Model.PagingInfo.CurrentPage - 1)</a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link">
+                        @Model.PagingInfo.CurrentPage
+                    </a>
+                </li>
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages)">
+                    <a class="page-link" asp-action="Search" asp-route-page="@(@Model.PagingInfo.CurrentPage + 1)"
+                            asp-route-naziv="@Model.Naziv"
+                            asp-route-br="@Model.Br"
+                            asp-route-tvar="@Model.Tvar"
+                            asp-route-dostupnost="@Model.Dostupnost"
+                            asp-route-vrsta="@Model.Vrsta"
+                            asp-route-cijena="@Model.Cijena">@(@Model.PagingInfo.CurrentPage + 1)</a>
+                </li>
+                <li class="page-item" hidden="@(Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages || @Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages - 1)">
+                    <a class="page-link" asp-action="Search" asp-route-page="@Model.PagingInfo.TotalPages"
+                          asp-route-naziv="@Model.Naziv"
+                          asp-route-br="@Model.Br"
+                          asp-route-tvar="@Model.Tvar"
+                          asp-route-dostupnost="@Model.Dostupnost"
+                          asp-route-vrsta="@Model.Vrsta"
+                          asp-route-cijena="@Model.Cijena">Zadnja</a>
+                </li>
+            </ul>
+        </div>
+        <br/>
+    </div>
+</div>

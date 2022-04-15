@@ -1,0 +1,44 @@
+﻿@model MedEd.Models.MedicinskiProizvod
+
+
+        <hr />
+        <form asp-route-page="@ViewBag.Page"
+              method="post">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="SifraMedProizvod" />
+                <div class="col-2">
+                    <input asp-for="NazivMedProizvod" class="form-control" />
+                    <span asp-validation-for="NazivMedProizvod" class="text-danger"></span>
+                </div>
+                <div class="col-2">
+                    <input asp-for="KataloskiBroj" class="form-control" />
+                    <span asp-validation-for="KataloskiBroj" class="text-danger"></span>
+                </div>
+                <div class="col-2">
+                    <input asp-for="Namjena" class="form-control" />
+                    <span asp-validation-for="Namjena" class="text-danger"></span>
+                </div>
+                <div class="col-2">
+                    <select asp-for="SifKlasa" class="form-control" asp-items="ViewBag.SifKlasa"></select>
+                    <span asp-validation-for="SifKlasa" class="text-danger"></span>
+                </div>
+                <div class="col-2">
+                    <select asp-for="SifProizvodjac" class="form-control" asp-items="ViewBag.SifProizvodjac"></select>
+                    <span asp-validation-for="SifProizvodjac" class="text-danger"></span>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                        <button type="button" class="btn btn-danger" onclick="closeEditMedProDivFunc()"><i class="fa fa-window-close"></i></button>
+                        <script>
+                            function closeEditMedProDivFunc() {
+                                $('#editMedProDiv').fadeOut();
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+

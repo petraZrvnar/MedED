@@ -1,0 +1,98 @@
+﻿@model MedEd.ViewModels.LjekarnaViewModel
+
+@{
+    ViewData["Title"] = "Rezultati pretrage";
+    if (ViewBag.Ulogiran == "true")
+    {
+        Layout = "_LoginLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
+
+<div class="container container-fluid">
+    <div class="wrapper">
+        <h2>Rezultati pretrage ljekarni</h2>
+        <a asp-action="Index" class="btn btn-link"><i class="fa fa-search"></i> Pretraži ponovno</a> | <a href="#"> <i class="fas fa-book-medical"></i> Izvezi rezultate</a>
+        <br />
+        <p></p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Naziv
+                    </th>
+                    <th>
+                        Adresa
+                    </th>
+                    <th>
+                        Mjesto
+                    </th>
+                    <th>
+                        Kontakt broj
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ljekarna in Model.Ljekarne)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@ljekarna.SifraLjekarna" asp-route-page="@Model.PagingInfo.CurrentPage"
+                               asp-route-naziv="@Model.NazivLjekarne" 
+                               asp-route-mjesto="@Model.MjestoLjekarne"
+                               asp-route-vrsta="@Model.VrstaLjekarne"class="btn btn-link">@ljekarna.NazivLjekarna</a>
+                        </td>
+                        <td>
+                            @ljekarna.AdresaLjekarna
+                        </td>
+                        <td>
+                            @ljekarna.Mjesto
+                        </td>
+                        <td>
+                            @ljekarna.KontaktBroj
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        <div hidden="@(@Model.PagingInfo.TotalPages == 1)" class="float-left">
+            <ul class="pagination">
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == 1 || @Model.PagingInfo.CurrentPage == 2)">
+                    <a class="page-link" asp-action="Search" asp-route-page="1"
+                       asp-route-nazivLjekarna="@Model.NazivLjekarne"
+                       asp-route-sifVrstaLjekarna="@Model.VrstaLjekarne"
+                       asp-route-mjestoLjekarna="@Model.MjestoLjekarne">Prva</a>
+                </li>
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == 1)">
+                    <a class="page-link" asp-action="Search" asp-route-page="@(@Model.PagingInfo.CurrentPage - 1)"
+                       asp-route-nazivLjekarna="@Model.NazivLjekarne"
+                       asp-route-sifVrstaLjekarna="@Model.VrstaLjekarne"
+                       asp-route-mjestoLjekarna="@Model.MjestoLjekarne">@(@Model.PagingInfo.CurrentPage - 1)</a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link">
+                        @Model.PagingInfo.CurrentPage
+                    </a>
+                </li>
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages)">
+                    <a class="page-link" asp-action="Search" asp-route-page="@(@Model.PagingInfo.CurrentPage + 1)"
+                       asp-route-nazivLjekarna="@Model.NazivLjekarne"
+                       asp-route-sifVrstaLjekarna="@Model.VrstaLjekarne"
+                       asp-route-mjestoLjekarna="@Model.MjestoLjekarne">@(@Model.PagingInfo.CurrentPage + 1)</a>
+                </li>
+                <li class="page-item" hidden="@(Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages || @Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages - 1)">
+                    <a class="page-link" asp-action="Search" asp-route-page="@Model.PagingInfo.TotalPages"
+                       asp-route-nazivLjekarna="@Model.NazivLjekarne"
+                       asp-route-sifVrstaLjekarna="@Model.VrstaLjekarne"
+                       asp-route-mjestoLjekarna="@Model.MjestoLjekarne">Zadnja</a>
+                </li>
+            </ul>
+        </div>
+        <br />
+    </div>
+</div>

@@ -1,0 +1,134 @@
+﻿@model MedEd.Models.Lijek
+
+@{
+    ViewData["Title"] = "Detalji o lijeku";
+    if (ViewBag.Ulogiran == "true")
+    {
+        Layout = "_LoginLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
+
+<div class="container container-fluid">
+    <div class="wrapper">
+        <a asp-action="PricesSearch"
+          asp-route-id="@Model.SifraLijek"
+          asp-route-page="@ViewBag.Page"
+          asp-route-naziv="@ViewBag.Naziv"
+           asp-route-mjesto="@ViewBag.Mjesto"
+           asp-route-cijena="@ViewBag.Cijena" class="btn btn-link"><i class="fa fa-arrow-left"></i> Natrag</a>
+        <p></p>
+        <div class="card border-primary mb-3">
+            <div class="card-body">
+                <h4 class="card-title text-primary">@Model.NazivLijek</h4>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Broj odobrenja:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.BrojOdobrenja
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Djelatna tvar
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.SifDjelatnaTvarNavigation.NazivDjelatnaTvar
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Količina djelatne tvari:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.Kolicina @Model.Jedinica
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Vrsta lijeka:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.SifVrstaLijekNavigation.OpisVrstaLijek
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Farmaceutski oblik:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.SifFarmOblikNavigation.OpisFarmOblik
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Način izdavanja:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.NacinIzdavanja
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Godina stavljanja na tržište
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.GodStavljanjaTrziste
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Na HRV tržištu:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.NaTrzistu
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Proizvođač:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.SifProizvodjacNavigation.NazivProizvodjac
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Sjedište proizvođača:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.SifProizvodjacNavigation.Sjediste
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        E-mail proizvođača:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.SifProizvodjacNavigation.EmailProizvodjac
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Web sjedište proizvođača:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.SifProizvodjacNavigation.WebSiteProizvodjac
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Nositelj odobrenja:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.SifNositeljNavigation.NazivNositelj
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+﻿@model MedEd.Models.Lijek
+
+        <hr />
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label asp-for="NazivLijek" class="control-label"></label>
+                            <input asp-for="NazivLijek" class="form-control" />
+                            <span asp-validation-for="NazivLijek" class="text-danger"></span>
+                        </div>
+                        <div class="col-3">
+                            <label asp-for="BrojOdobrenja" class="control-label"></label>
+                            <input asp-for="BrojOdobrenja" class="form-control" />
+                            <span asp-validation-for="BrojOdobrenja" class="text-danger"></span>
+                        </div>
+                        <div class="col-3">
+                            <label asp-for="SifVrstaLijek" class="control-label"></label>
+                            <select asp-for="SifVrstaLijek" class="form-control" asp-items="ViewBag.SifVrstaLijek"></select>
+                        </div>
+                        <div class="col-3">
+                            <label asp-for="SifFarmOblik" class="control-label"></label>
+                            <select asp-for="SifFarmOblik" class="form-control" asp-items="ViewBag.SifFarmOblik"></select>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="col-3">
+                            <label asp-for="SifDjelatnaTvar" class="control-label"></label>
+                            <select asp-for="SifDjelatnaTvar" class="form-control" asp-items="ViewBag.SifDjelatnaTvar"></select>
+                        </div>
+                        <div class="col-3">
+                            <label asp-for="Kolicina" class="control-label"></label>
+                            <input asp-for="Kolicina" class="form-control" />
+                            <span asp-validation-for="Kolicina" class="text-danger"></span>
+                        </div>
+                        <div class="col-3">
+                            <label asp-for="Jedinica" class="control-label"></label>
+                            <select asp-for="Jedinica" class="form-control">
+                                <option value="g">g</option>
+                                <option value="mg">mg</option>
+                                <option value="μg">μg</option>
+                            </select>
+                            <span asp-validation-for="Jedinica" class="text-danger"></span>
+                        </div>
+                        <div class="col-3">
+                            <label asp-for="GodStavljanjaTrziste" class="control-label"></label>
+                            <input asp-for="GodStavljanjaTrziste" class="form-control" />
+                            <span asp-validation-for="GodStavljanjaTrziste" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="col-3">
+                            <label asp-for="NacinIzdavanja" class="control-label"></label>
+                            <input asp-for="NacinIzdavanja" class="form-control" />
+                            <span asp-validation-for="NacinIzdavanja" class="text-danger"></span>
+                        </div>
+                        <div class="col-3">
+                            <label asp-for="NaTrzistu" class="control-label"></label>
+                            <select asp-for="NaTrzistu" class="form-control">
+                                <option value="DA">DA</option>
+                                <option value="NE">NE</option>
+                            </select>
+                            <span asp-validation-for="NaTrzistu" class="text-danger"></span>
+                        </div>
+                        <div class="col-3">
+                            <label asp-for="SifNositelj" class="control-label"></label>
+                            <select asp-for="SifNositelj" class="form-control" asp-items="ViewBag.SifNositelj"></select>
+                        </div>
+                        <div class="col-3">
+                            <label asp-for="SifProizvodjac" class="control-label"></label>
+                            <select asp-for="SifProizvodjac" class="form-control" asp-items="ViewBag.SifProizvodjac"></select>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="col-5"></div>
+                        <div class="col-2">
+                            <label for="gumb5"></label>
+                            <div class="form-group">
+                                <button type="submit" id="gumb5"class="btn btn-primary"><i class="fa fa-save"></i></button>
+                                <button type="button" class="btn btn-danger" onclick="closeNewLijekFunc()"><i class="fa fa-window-close"></i></button>
+                                <script>
+                                    function closeNewLijekFunc() {
+                                        $('#newLijekDiv').fadeOut();
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+</form>

@@ -1,0 +1,41 @@
+﻿@model MedEd.Models.RegistriraniKorisnik
+
+<hr />
+<form asp-route-page="@ViewBag.Page" method="post">
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="SifraKorisnik" />
+        <div class="col-2">
+            <input asp-for="KorisnickoIme" class="form-control" />
+            <span asp-validation-for="KorisnickoIme" class="text-danger"></span>
+        </div>
+        <div class="col-2">
+            <input asp-for="Ime" class="form-control" />
+            <span asp-validation-for="Ime" class="text-danger"></span>
+        </div>
+        <div class="col-2">
+            <input asp-for="Prezime" class="form-control" />
+            <span asp-validation-for="Prezime" class="text-danger"></span>
+        </div>
+        <div class="col-2">
+            <input asp-for="EmailKorisnik" class="form-control" />
+            <span asp-validation-for="EmailKorisnik" class="text-danger"></span>
+        </div>
+        <div class="col-2">
+            <select asp-for="SifUloga" class="form-control" asp-items="ViewBag.SifUloga"></select>
+            <span asp-validation-for="SifUloga" class="text-danger"></span>
+        </div>
+        <div class="col-2">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <button type="button" class="btn btn-danger" onclick="closeEditUserDivFunc()"><i class="fa fa-window-close"></i></button>
+                <script>
+                    function closeEditUserDivFunc() {
+                        $('#editUserDiv').fadeOut();
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+</form>
+

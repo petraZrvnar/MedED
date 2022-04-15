@@ -1,0 +1,48 @@
+﻿@model MedEd.Models.Proizvodjac
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Proizvodjac</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NazivProizvodjac)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NazivProizvodjac)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Sjediste)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Sjediste)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmailProizvodjac)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmailProizvodjac)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WebSiteProizvodjac)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WebSiteProizvodjac)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SifMjestoNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SifMjestoNavigation.NazivMjesto)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.SifraProizvodjac">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

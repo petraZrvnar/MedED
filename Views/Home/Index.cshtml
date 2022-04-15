@@ -1,0 +1,70 @@
+﻿@model MedEd.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "Početna stranica";
+    if (ViewBag.Ulogiran == "true")
+    {
+        Layout = "_LoginLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
+<div class="containet container-fluid">
+    <div class="jumbotron">
+        @if (Model != null && Model.Odjava)
+        {
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <div class="alert alert-dismissible alert-primary">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Odjava je uspješno provedena.</strong> Nastavite koristiti sustav kao neregistiran korisnik,
+                        ili se ponovno prijavite na sustav.
+                    </div>
+                </div>
+            </div>
+        }
+        <img src="~/slike/pocetna3.png" class="img-fluid center" alt="Naslovna" style="height:80%;width:90%;margin-left:auto;margin-right:auto" />
+        <div class="container container-fluid">
+            <h1>Dobro došli na MedEd!</h1>
+            <p>
+                MedEd je web aplikacija vam omogućava da pretražite lijekove, medicinske proizvode i ljekarne.
+                Za svaki lijek i medicinski proizvod je također moguće vidjeti kolika je njihova cijena, te njihova dostupnost po pojedinim ljekarnama.
+                Odaberite što želite pretražiti:
+            </p>
+        </div>
+        <p></p>
+        <div class="container container-fluid">
+            <div class="row">
+                <div class="col-4">
+                    <div class="center">
+                        <img src="~/slike/kisspng-pharmaceutical-drug-pharmacy-pharmacist-medicine-t-treats-5ab973f3806046.4016172515221032835258.png" class="img-fluid" alt="Pretražite lijekove" />
+                        <p></p>
+                        <button type="button" class="btn btn-secondary">
+                            <a class="nav-link text-white" asp-area="" asp-controller="LijekSearch" asp-action="Index">Pretraži lijekove</a>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="center">
+                        <img src="~/slike/kisspng-diabetes-mellitus-diabetes-management-blood-sugar-blood-sugar-5adf0f3cb04503.591661551524567868722.png" class="img-fluid" />
+                        <p></p>
+                        <button type="button" class="btn btn-secondary">
+                            <a class="nav-link text-white" asp-area="" asp-controller="MedProizvodSearch" asp-action="Index">Pretraži medicinske proizvode</a>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="center">
+                        <img src="~/slike/ljekarne.png" class="img-fluid" />
+                        <p></p>
+                        <button type="button" class="btn btn-secondary">
+                            <a class="nav-link text-white" asp-area="" asp-controller="LjekarnaSearch" asp-action="Index">Pretraži ljekarne</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

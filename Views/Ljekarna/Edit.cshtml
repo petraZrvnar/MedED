@@ -1,0 +1,61 @@
+﻿@model MedEd.Models.Ljekarna
+
+        <hr />
+        <form asp-route-page="@ViewBag.Page"
+              method="post">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="SifraLjekarna" />
+                <div class="col-3">
+                    <label asp-for="NazivLjekarna" class="control-label"></label>
+                    <input asp-for="NazivLjekarna" class="form-control" />
+                    <span asp-validation-for="NazivLjekarna" class="text-danger"></span>
+                </div>
+                <div class="col-3">
+                    <label asp-for="AdresaLjekarna" class="control-label"></label>
+                    <input asp-for="AdresaLjekarna" class="form-control" />
+                    <span asp-validation-for="AdresaLjekarna" class="text-danger"></span>
+                </div>
+                <div class="col-3">
+                    <label asp-for="SifMjesto" class="control-label"></label>
+                    <select asp-for="SifMjesto" class="form-control" asp-items="ViewBag.SifMjesto"></select>
+                    <span asp-validation-for="SifMjesto" class="text-danger"></span>
+                </div>
+                <div class="col-3">
+                    <label asp-for="KontaktBroj" class="control-label"></label>
+                    <input asp-for="KontaktBroj" class="form-control" />
+                    <span asp-validation-for="KontaktBroj" class="text-danger"></span>
+                </div>
+            </div>
+            <p></p>
+            <div class="row">
+                <div class="col-3">
+                    <label asp-for="EmailLjekarna" class="control-label"></label>
+                    <input asp-for="EmailLjekarna" class="form-control" />
+                    <span asp-validation-for="EmailLjekarna" class="text-danger"></span>
+                </div>
+                <div class="col-3">
+                    <label asp-for="RadnoVrijeme" class="control-label"></label>
+                    <input asp-for="RadnoVrijeme" class="form-control" />
+                    <span asp-validation-for="RadnoVrijeme" class="text-danger"></span>
+                </div>
+                <div class="col-3">
+                    <label asp-for="SifVrstaLjekarna" class="control-label"></label>
+                    <select asp-for="SifVrstaLjekarna" class="form-control" asp-items="ViewBag.SifVrstaLjekarna"></select>
+                    <span asp-validation-for="SifVrstaLjekarna" class="text-danger"></span>
+                </div>
+                <div class="col-2">
+                    <label for="gumb2"></label>
+                    <div class="form-group">
+                        <button type="submit" id="gumb2" value="Spremi" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                        <button type="button" class="btn btn-danger" onclick="closeEditLjekarnaDivFunc()"><i class="fa fa-window-close"></i></button>
+                        <script>
+                            function closeEditLjekarnaDivFunc() {
+                                $('#editLjekarnaDiv').fadeOut();
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </form>
+

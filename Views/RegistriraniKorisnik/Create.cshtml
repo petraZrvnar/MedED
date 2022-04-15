@@ -1,0 +1,85 @@
+﻿@model MedEd.Models.RegistriraniKorisnik
+
+<hr />
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-3">
+                    <label asp-for="KorisnickoIme" class="control-label"></label>
+                    <input asp-for="KorisnickoIme" class="form-control" />
+                    <span asp-validation-for="KorisnickoIme" class="text-danger"></span>
+                </div>
+                <div class="col-3">
+                    <label asp-for="Ime" class="control-label"></label>
+                    <input asp-for="Ime" class="form-control" />
+                    <span asp-validation-for="Ime" class="text-danger"></span>
+                </div>
+                <div class="col-3">
+                    <label asp-for="Prezime" class="control-label"></label>
+                    <input asp-for="Prezime" class="form-control" />
+                    <span asp-validation-for="Prezime" class="text-danger"></span>
+                </div>
+                <div class="col-3">
+                    <label asp-for="EmailKorisnik" class="control-label"></label>
+                    <input asp-for="EmailKorisnik" class="form-control" />
+                    <span asp-validation-for="EmailKorisnik" class="text-danger"></span>
+                </div>
+            </div>
+            <p></p>
+            <div class="row">
+                <div class="col-3" id="lozinkaForm">
+                    <label asp-for="Lozinka" class="control-label"></label>
+                    <input asp-for="Lozinka" class="form-control" type="password" id="lozinka" />
+                    <span asp-validation-for="Lozinka" class="text-danger"></span>
+                </div>
+                <div class="col-3" id="lozinkaPonForm">
+                    <label for="lozinkaPon">Ponovite lozinku</label>
+                    <input id="lozinkaPon" type="password" class="form-control" />
+                    <span id="poruka"></span>
+                </div>
+                <div class="col-3">
+                    <label asp-for="SifUloga" class="control-label"></label>
+                    <select asp-for="SifUloga" class="form-control" asp-items="ViewBag.SifUloga"></select>
+                </div>
+                <div class="col-2">
+                    <label for="gumb3"></label>
+                    <div class="form-group">
+                        <button type="submit" id="gumb3" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                        <button type="button" class="btn btn-danger" onclick="closeNewUserFunc()"><i class="fa fa-window-close"></i></button>
+                        <script>
+                            function closeNewUserFunc() {
+                                $('#newUserDiv').fadeOut();
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+</form>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#lozinkaPon").keyup(validate);
+    });
+
+
+    function validate() {
+        var password1 = $("#lozinka").val();
+        var password2 = $("#lozinkaPon").val();
+        var bad = "#FF0039";
+        var good = "#2780E3";
+
+
+        if (password1 == password2) {
+            $("#poruka").text("Lozinke se podudaraju");
+            $('#poruka').removeClass("text-danger");
+            $('#poruka').addClass("text-success");
+        }
+        else {
+            $("#poruka").text("Lozinke se ne podudaraju");
+            $('#poruka').toggleClass("text-danger");
+        }
+
+    }
+
+</script>

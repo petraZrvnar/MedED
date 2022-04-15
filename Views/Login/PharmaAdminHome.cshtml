@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Početna ljekarnik admin";
+    Layout = "_LoginLayout";
+}
+
+<div class="container container-fluid">
+    <div class="wrapper">
+        @if (ViewBag.Zaposlen == "true")
+        {
+            <h1>Dobro došli!</h1>
+            <p>Odaberite koje podatke želite uređivati za ljekarnu u kojoj ste zaposleni:</p>
+            <div class="container container-fluid">
+                <div class="row">
+                    <div style="width:12%"></div>
+                    <div class="col-3">
+                        <div class="center">
+                            <img src="~/slike/kisspng-computer-icons-battery-charger-health-care-hospita-5b381b5838df19.248846121530403672233.png" class="img-fluid" alt="Ljekarnici" />
+                            <p></p>
+                            <button class="btn btn-secondary">Ljekarnici</button>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="center">
+                            <img src="~/slike/kisspng-computer-icons-medicine-pharmaceutical-drug-health-pharmacy-5ac4a8aa6804f4.6415024715228376744261.png" class="img-fluid" alt="Uredi lijekove" />
+                            <p></p>
+                            <a class="btn btn-secondary" asp-controller="LijekLjekarna" asp-action="Index">Lijekovi</a>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="center">
+                            <img src="~/slike/kisspng-medicine-computer-icons-pharmaceutical-drug-health-medicines-5abf2886cd63a4.2196951115224771908413.png" class="img-fluid" alt="Uredi med.proizvode" />
+                            <p></p>
+                            <a class="btn btn-secondary" asp-controller="MedProizvodLjekarna" asp-action="Index">Med. proizvodi</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="center">
+                <h1 class="text-danger"><strong>Trenutno niste zaposleni u niti jednoj ljekarni!</strong></h1>
+                <i class="fas fa-user-md" style="font-size:170px;color:#FF0039"></i>
+                <p></p>
+                Da biste upravljali lijekovima i proizvodima u ljekarni, prvo se trebate zaposliti u nekoj od ljekarni.
+            </div>
+        }
+    </div>
+</div>

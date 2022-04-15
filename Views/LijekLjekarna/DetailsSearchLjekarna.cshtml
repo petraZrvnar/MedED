@@ -1,0 +1,75 @@
+﻿@model MedEd.Models.Ljekarna
+
+@{
+    ViewData["Title"] = "Detalji o ljekarni";
+    Layout = "_LoginLayout";
+}
+
+<div class="container container-fluid">
+    <div class="wrapper">
+        <a asp-action="Search"
+           asp-route-page="@ViewBag.Page"
+           asp-route-naziv="@ViewBag.Naziv"
+           asp-route-br="@ViewBag.Br"
+           asp-route-tvar="@ViewBag.Tvar"
+           asp-route-dostupnost="@ViewBag.Dostupnost"
+           asp-route-vrsta="@ViewBag.Vrsta"
+           asp-route-cijena="@ViewBag.Cijena"
+           class="btn btn-link"><i class="fa fa-arrow-left"></i> Natrag</a>
+        <p></p>
+        <div class="card border-primary mb-3">
+            <div class="card-body">
+                <h4 class="card-title text-primary">@Model.NazivLjekarna</h4>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Adresa:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.AdresaLjekarna, @Model.SifMjestoNavigation.NazivMjesto, @Model.SifMjestoNavigation.PostanskiBroj
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Kontakt:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.KontaktBroj
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        E-mail:
+                    </dt>
+                    @if (string.IsNullOrEmpty(Model.EmailLjekarna))
+                    {
+                        <dd class="col-sm-8">
+                            <text class="text-danger">Ljekarna nema službeni e-mail!</text>
+                        </dd>
+                    }
+                    else
+                    {
+                        <dd class="col-sm-8">
+                            @Model.EmailLjekarna
+                        </dd>
+                    }
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Radno vrijeme:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.RadnoVrijeme
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Vrsta ljekarne:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.SifVrstaLjekarnaNavigation.OpisVrstaLjekarna
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>

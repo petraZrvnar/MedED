@@ -1,0 +1,148 @@
+﻿@model MedEd.ViewModels.LijekSearchViewModel
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+@{
+    ViewData["Title"] = "Rezultati pretrage";
+    if (ViewBag.Ulogiran == "true")
+    {
+        Layout = "_LoginLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
+<div class="container container-fluid">
+    <div classs="wrapper" style="max-width: 2000px;
+    background-color: #fff;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;">
+        <h2>Rezultati pretrage lijekova</h2>
+        <a asp-action="Index" class="btn btn-link"><i class="fa fa-search"></i> Pretraži ponovno</a> | <a href="#"> <i class="fas fa-book-medical"></i> Izvezi rezultate</a>
+        <br />
+        <p></p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Naziv
+                    </th>
+                    <th>
+                        Djelatna tvar
+                    </th>
+                    <th>
+                        Količina
+                    </th>
+                    <th>
+                        Način izdavanja
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var lijek in Model.Lijekovi)
+                {
+                    <tr>
+                        <td class="text-left">
+                            <a asp-action="Details" asp-route-id="@lijek.SifraLijek" asp-route-page="@Model.PagingInfo.CurrentPage" class="btn btn-link">@lijek.NazivLijek</a>
+                        </td>
+                        <td class="text-left">
+                            @lijek.DjelatnaTvar
+                        </td>
+                        <td class="text-left">
+                            @lijek.Kolicina  @lijek.Jedinica
+                        </td>
+                        <td class="text-left">
+                            @lijek.NacinIzdavanja
+                        </td>
+                        <td>
+                            @if (lijek.Count != 0)
+                            {
+                                <a asp-action="Prices" asp-route-id="@lijek.SifraLijek"
+                                   asp-route-page="@Model.PagingInfo.CurrentPage"
+                                   data-toggle="tooltip" class="btn btn-primary priceLijek"
+                                   title="Pogledajte cijene i dostupnost lijeka po ljekarnama">
+                                    <i class="fa fa-search-dollar"></i>
+                                </a>
+                                <script>
+                                    $(function () {
+                                        $('.priceLijek').tooltip()
+                                    });
+                                </script>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-danger disabled noPriceLijek" title="Ovaj lijek se ne prodaje u niti jednoj ljekarni!"><i class="fa fa-search-dollar"></i></button>
+                                <script>
+                                    $(function () {
+                                        $('.noPriceLijek').tooltip()
+                                    });
+                                </script>
+                            }
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div hidden="@(@Model.PagingInfo.TotalPages == 1)" class="float-left">
+            <ul class="pagination">
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == 1 || @Model.PagingInfo.CurrentPage == 2)">
+                    <a class="page-link" asp-action="Search" asp-route-page="1"
+                       asp-route-naziv="@Model.Naziv"
+                       asp-route-brOd="@Model.Br"
+                       asp-route-vrsta="@Model.Vrsta" 
+                       asp-route-tvar="@Model.Tvar"
+                       asp-route-kolicina="@Model.Kolicina"
+                       asp-route-jedinica="@Model.Jedinica"
+                       asp-route-oblik="@Model.Oblik"
+                       asp-route-pro="@Model.Pro"
+                       asp-route-god="@Model.God">Prva</a>
+                </li>
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == 1)">
+                    <a class="page-link" asp-action="Search" asp-route-page="@(@Model.PagingInfo.CurrentPage - 1)"
+                       asp-route-naziv="@Model.Naziv"
+                       asp-route-brOd="@Model.Br"
+                       asp-route-vrsta="@Model.Vrsta" 
+                       asp-route-tvar="@Model.Tvar"
+                       asp-route-kolicina="@Model.Kolicina"
+                       asp-route-jedinica="@Model.Jedinica"
+                       asp-route-oblik="@Model.Oblik"
+                       asp-route-pro="@Model.Pro"
+                       asp-route-god="@Model.God">@(@Model.PagingInfo.CurrentPage - 1)</a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link">
+                        @Model.PagingInfo.CurrentPage
+                    </a>
+                </li>
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages)">
+                    <a class="page-link" asp-action="Search" asp-route-page="@(@Model.PagingInfo.CurrentPage + 1)"
+                       asp-route-naziv="@Model.Naziv"
+                       asp-route-brOd="@Model.Br"
+                       asp-route-vrsta="@Model.Vrsta" 
+                       asp-route-tvar="@Model.Tvar"
+                       asp-route-kolicina="@Model.Kolicina"
+                       asp-route-jedinica="@Model.Jedinica"
+                       asp-route-oblik="@Model.Oblik"
+                       asp-route-pro="@Model.Pro"
+                       asp-route-god="@Model.God">@(@Model.PagingInfo.CurrentPage + 1)</a>
+                </li>
+                <li class="page-item" hidden="@(Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages || @Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages - 1)">
+                    <a class="page-link" asp-action="Search" asp-route-page="@Model.PagingInfo.TotalPages"
+                       asp-route-naziv="@Model.Naziv"
+                       asp-route-brOd="@Model.Br"
+                       asp-route-vrsta="@Model.Vrsta" 
+                       asp-route-tvar="@Model.Tvar"
+                       asp-route-kolicina="@Model.Kolicina"
+                       asp-route-jedinica="@Model.Jedinica"
+                       asp-route-oblik="@Model.Oblik"
+                       asp-route-pro="@Model.Pro"
+                       asp-route-god="@Model.God">Zadnja</a>
+                </li>
+            </ul>
+        </div>
+        <br/>
+    </div>
+</div>

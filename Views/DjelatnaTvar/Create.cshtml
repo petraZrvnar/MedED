@@ -1,0 +1,38 @@
+﻿@model MedEd.Models.DjelatnaTvar
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>DjelatnaTvar</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SifraDjelatnaTvar" class="control-label"></label>
+                <input asp-for="SifraDjelatnaTvar" class="form-control" />
+                <span asp-validation-for="SifraDjelatnaTvar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NazivDjelatnaTvar" class="control-label"></label>
+                <input asp-for="NazivDjelatnaTvar" class="form-control" />
+                <span asp-validation-for="NazivDjelatnaTvar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

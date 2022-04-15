@@ -1,0 +1,78 @@
+﻿@model MedEd.ViewModels.LjekarnaViewModel
+
+@{
+    ViewData["Title"] = "Pretražite ljekarne";
+    if (ViewBag.Ulogiran == "true")
+    {
+        Layout = "_LoginLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
+<div class="container container-fluid">
+    <div class="wrapper" style="padding-left:50px">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-link"><i class="fa fa-arrow-left"></i> Natrag na početnu</a>
+        <p></p>
+        <div class="center">
+            <h1>Pretraga ljekarni</h1>
+            <hr />
+            <div class="row">
+                <div style="width:12%"></div>
+                <div class="col-9">
+                    @if (Model != null && Model.BezRezultata)
+                    {
+                        <div class="alert alert-dismissible alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Nije pronađen niti jedan rezultat! </strong> Promjenite kriterije pretrage i pretražite ponovno.
+                        </div>
+                    }
+                </div>
+            </div>
+            <img src="~/slike/ljekarnaSearch.png" alt="Pretraga ljekarni" class="img-fluid" style="width:60%; height:50%" />
+            <p></p>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-sm-8">
+                    U nastavku možete potražiti određenu ljekarnu navodeći kriterije pretrage. Kriteriji pretrage se mogu međusobno kombinirati, a pojedini kriterij može biti izostavljen.
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6" style="background-color:#d4e6f9;color:#144376">
+                <p></p>
+                <div class="form-group">
+                    <form asp-controller="LjekarnaSearch" asp-action="Search" method="get">
+                        <div class="form-group">
+                            <label for="naziv">Naziv ljekarne:</label>
+                            <input type="text" name="nazivLjekarna" id="naziv" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="sifVrstaLjekarna">Vrsta ljekarne:</label>
+                            <select class="form-control" id="sifVrstaLjekarna" name="SifVrstaLjekarna">
+                                <option value="Sve vrste">Sve vrste</option>
+                                <option value="Bolnička ljekarna">Bolnička ljekarna</option>
+                                <option value="Klinička ljekarna">Klinička ljekarna</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="mjestoLjekarna">Mjesto:</label>
+                            <select class="form-control" id="mjestoLjekarna" name="mjestoLjekarna">
+                                <option value="Sva mjesta">Sva mjesta</option>
+                                <option value="Zagreb">Zagreb</option>
+                                <option value="Bakar">Bakar</option>
+                            </select>
+                        </div>
+                        <div class="center">
+                            <input type="submit" value="Pretraži" class=" btn btn-secondary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

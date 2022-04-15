@@ -1,0 +1,237 @@
+﻿@model MedEd.ViewModels.MedProLjekarnaAdminViewModel
+
+@{
+    ViewData["Title"] = "Popis medicinskih proizvoda po ljekarni";
+    Layout = "_LoginLayout";
+}
+
+<div class="container container-fluid">
+    <div class="wrapper">
+        <h2>Popis medicinskih proizvoda u ljekarni <a asp-action="DetailsLjekarna" 
+         asp-route-page="@Model.PagingInfo.CurrentPage" asp-route-id="@Model.Ljekarna">@Model.NazivLjekarna</a></h2>
+        <hr/>
+        <div class="row">
+            <div class="col-9">
+                @if (Model != null && Model.BezRezultata)
+                {
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Nije pronađen niti jedan proizvod.</strong> Promijenite kriterije pretrage i pokušajte pretražiti ponovno.
+                    </div>
+                }
+                else if (Model != null && Model.Obrisano)
+                {
+                    <div class="alert alert-dismissible alert-primary">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        Proizvod <strong>@Model.Poruka</strong> uspješno obrisan.
+                    </div>
+                }
+                else if (Model != null && Model.Azurirano)
+                {
+                    <div class="alert alert-dismissible alert-primary">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        Podatci za proizvod <strong>@Model.Poruka</strong> su uspješno ažurirani.
+                    </div>
+                }
+                else if (Model != null && Model.Dodano)
+                {
+                    <div class="alert alert-dismissible alert-primary">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        Novi proizvod <strong>@Model.Poruka</strong> je uspješno dodan.
+                    </div>
+                }
+                else if (Model != null && Model.Greska)
+                {
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Došlo je do greške prilikom brisanja: </strong> @Model.Exc
+                    </div>
+                }
+                else if (Model != null && Model.GreskaDodavanje)
+                {
+                    string[] greske = Model.PorukaDodavanje.Split(";");
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Došlo je do greške prilikom dodavanja proizvoda: </strong>
+                        Neki podatci nedostaju ili nisu ispravni:
+                        <ul>
+                            @for (int i = 0; i < greske.Length - 1; ++i)
+                            {
+                                <li>@greske[i]</li>
+                            }
+                        </ul>
+                        <strong>Ispravite greške i pokušajte ponovno.</strong>
+                    </div>
+                }
+                else if (Model != null && Model.GreskaEdit)
+                {
+                    string[] greske = Model.PorukaDodavanje.Split(";");
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Došlo je do greške prilikom ažuriranja proizvoda: </strong>
+                        Neki podatci nedostaju ili nisu ispravni:
+                        <ul>
+                            @for (int i = 0; i < greske.Length - 1; ++i)
+                            {
+                                <li>@greske[i]</li>
+                            }
+                        </ul>
+                        <strong>Ispravite greške i pokušajte ponovno.</strong>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary" onclick="createProLjekarnaFunc()"><i class="fa fa-plus"></i> Novi proizvod</button>
+            <script>
+                function createProLjekarnaFunc() {
+                    var url = '@Url.Action("Create", "MedProizvodLjekarna")';
+                    $('#newProLjekarnaDiv').fadeIn();
+                    $('#newProLjekarnaDiv').load(url);
+                }
+            </script>
+            <button type="button" class="btn btn-primary" onclick="searchProLjekarnaFunc()"><i class="fa fa-search"></i> Pretraži listu</button>
+            <script>
+                function searchProLjekarnaFunc() {
+                    $('#searchProLjekarnaDiv').fadeIn();
+                }
+            </script>
+        </div>     
+        <div style="display:none" id="searchProLjekarnaDiv">
+            <hr/>
+                    <form asp-controller="MedProizvodLjekarna" asp-action="Search" method="get">
+                        <div class="row">
+                            <div class="col-4">
+                                <input type="text" name="naziv" class="form-control" id="naziv">
+                            </div>
+                            <div class="col-2">
+                                <select class="form-control" id="cijena" name="cijena">
+                                    <option value="--">--</option>
+                                    <option value="Manja od 100kn">Manja od 100kn</option>
+                                    <option value="Od 100kn do 300kn">Od 100kn do 300kn</option>
+                                    <option value="Više od 300kn">Više od 300 kn</option>
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <select class="form-control" id="dostupnost" name="dostupnost">
+                                    <option value="--">--</option>
+                                    <option value="Dostupan">Dostupan</option>
+                                    <option value="Nedostupan">Nedostupan</option>
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                                    <button type="button" class="btn btn-danger" onclick="odustaniSearchProLjekarnaFunc()"><i class="fa fa-window-close"></i></button>
+                                    <script>
+                                        function odustaniSearchProLjekarnaFunc() {
+                                            $('#searchProLjekarnaDiv').fadeOut();
+                                        }
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+             </form>
+        </div>
+        <p></p>
+        <div id="newProLjekarnaDiv" style="display:none"></div>
+        <p></p>
+        <div id="editProLjekarnaDiv" style="display:none"></div>
+        <p></p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Naziv
+                    </th>
+                    <th>
+                        Cijena
+                    </th>
+                    <th>
+                        Dostupnost
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var proizvod in Model.Proizvodi)
+                {
+                    using (Html.BeginForm("Delete", "MedProizvodLjekarna", new { id = proizvod.SifMedProizvod, page = Model.PagingInfo.CurrentPage }))
+                    {
+                        var deleteForm = "deleteForm" + proizvod.SifMedProizvod;
+                        var id = proizvod.SifMedProizvod;
+                    <tr>
+                        <td class="text-left" style="width:35%">
+                            <a asp-action="DetailsPro" asp-route-id="@proizvod.SifMedProizvod"
+                               asp-route-page="@Model.PagingInfo.CurrentPage">@proizvod.NazivProizvod</a>
+                        </td>
+                        <td class="text-left" style="width:17%">
+                            <strong>@proizvod.CijenaMedProizvod</strong>
+                        </td>
+                        <td class="text-left" style="width:25%">
+                            @if (proizvod.DostupnostMedProizvod == "Dostupan")
+                            {
+                                <strong><p class="text-primary">@proizvod.DostupnostMedProizvod</p></strong>
+                            }
+                            else
+                            {
+                                <strong><p class="text-danger">@proizvod.DostupnostMedProizvod</p></strong>
+                            }
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm"
+                                    onclick="var url = '@Url.Action("Edit", "MedProizvodLjekarna", new { id = id, page = Model.PagingInfo.CurrentPage })';$('#editProLjekarnaDiv').fadeIn();
+                                            $('#editProLjekarnaDiv').load(url);">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm delete"
+                                    data-target="#@deleteForm" data-toggle="modal">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <div class="modal fade" id="@deleteForm" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content" role="document">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">Želite li stvarno orbisati med. proizvod @proizvod.NazivProizvod?</h3>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="submit" value="U redu" class="btn btn-danger" />
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <br/>
+         <div hidden="@(@Model.PagingInfo.TotalPages == 1)" class="float-left">
+            <ul class="pagination">
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == 1 || @Model.PagingInfo.CurrentPage == 2)">
+                    <a class="page-link" asp-action="Index" asp-route-page="1">Prva</a>
+                </li>
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == 1)">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(@Model.PagingInfo.CurrentPage - 1)">@(@Model.PagingInfo.CurrentPage - 1)</a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link">
+                        @Model.PagingInfo.CurrentPage
+                    </a>
+                </li>
+                <li class="page-item" hidden="@(@Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages)">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(@Model.PagingInfo.CurrentPage + 1)">@(@Model.PagingInfo.CurrentPage + 1)</a>
+                </li>
+                <li class="page-item" hidden="@(Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages || @Model.PagingInfo.CurrentPage == @Model.PagingInfo.TotalPages - 1)">
+                    <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages">Zadnja</a>
+                </li>
+            </ul>
+        </div>
+        <br/>
+    </div>
+</div>

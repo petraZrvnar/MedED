@@ -1,0 +1,113 @@
+﻿@model MedEd.ViewModels.LijekSearchViewModel
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+@{
+    ViewData["Title"] = "Pretraga lijekova";
+    if (ViewBag.Ulogiran == "true")
+    {
+        Layout = "_LoginLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
+
+<div class="container container-fluid">
+    <div class="wrapper" style="padding-left:50px">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-link"><i class="fa fa-arrow-left"></i> Natrag na početnu</a>
+        <p></p>
+        <div class="center">
+            <h1>Pretraga lijekova</h1>
+            <hr />
+            <div class="row">
+                <div style="width:12%"></div>
+                <div class="col-9">
+                    @if (Model != null && Model.BezRezultata)
+                    {
+                        <div class="alert alert-dismissible alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Nije pronađen niti jedan rezultat! </strong> Promjenite kriterije pretrage i pretražite ponovno.
+                        </div>
+                    }
+                </div>
+            </div>
+            <img src="~/slike/lijekSearch.png" class="img-fluid" style="width:60%; height:50%" alt="Pretraga lijekova" />
+            <p></p>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <p>U nastavku možete potražiti određeni lijek navodeći kriterije pretrage. Kriteriji pretrage se mogu međusobno kombinirati, a pojedini kriterij može biti izostavljen.</p>
+                </div>
+            </div>          
+        </div>
+        <p></p>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6" style="background-color:#d4e6f9;color:#144376">
+                <p></p>
+                <div class="form-group">
+                    <form asp-controller="LijekSearch" asp-action="Search" method="get">
+                        <div class="form-group">
+                            <label for="naziv">Naziv lijeka:</label>
+                            <input type="text" name="naziv" class="form-control" id="naziv">
+                        </div>
+                        <div class="form-group">
+                            <label for="brOd">Broj odobrenja:</label>
+                            <input type="text" name="brOd" class="form-control" id="brOd">
+                        </div>
+                        <div class="form-group">
+                            <label for="vrsta">Vrsta lijeka:</label>
+                            <select class="form-control" id="vrsta" name="vrsta">
+                                <option value="Sve vrste">Sve vrste</option>
+                                <option value="Lijek na recept">Lijek na recept</option>
+                                <option value="Tradicionalni biljni lijek">Tradicionalni biljni lijek</option>
+                                <option value="Bezreceptni lijek">Bezreceptni lijek</option>
+                                <option value="Homeopatski lijek">Homeopatski lijek</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tvar">Djelatna tvar:</label>
+                            <input type="text" name="tvar" id="tvar" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <lable for="kolicina">Količina djelatne tvar:</lable>
+                            <input type="number" name="kolicina" id="kolicina" class="form-control">
+                        </div>
+                        <div class="form-group">
+                                <label for="jedinica">Mjerna jedinica:</label>
+                                <select class="form-control" id="jedinica" name="jedinica">
+                                    <option value="--">--</option>
+                                    <option value="g">g</option>
+                                    <option value="mg">mg</option>
+                                    <option value="μg">μg</option>
+                                </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="oblik">Farmaceutski oblik:</label>
+                            <select class="form-control" id="oblik" name="oblik">
+                                <option value="Svi oblici">Svi oblici</option>
+                                <option value="Tableta">Tableta</option>
+                                <option value="Otopina">Otopina</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="proizvodjac">Proizvođač:</label>
+                            <select class="form-control" id="proizvodjac" name="pro">
+                                <option value="Svi proizvođači">Svi proizvođači</option>
+                                <option value="Belupo lijekovi i kozmetika d.d">Belupo lijekovi i kozmetika d.d</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="god">Godina stavljanja lijeka na tržište:</label>
+                            <input type="number" name="god" class="form-control" id="god">
+                        </div>
+                        <div class="center">
+                            <input type="submit" value="Pretraži" class=" btn btn-secondary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

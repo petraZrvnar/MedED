@@ -1,0 +1,65 @@
+﻿@model MedEd.ViewModels.LoginViewModel
+
+@{ 
+    ViewData["Title"] = "Prijava";
+}
+
+<div class="container container-fluid">
+    <div class="wrapper">
+        <div class="center">
+            <h1>Prijava</h1>
+            @if (Model != null && (Model.FailUser || Model.FailPass))
+            {
+                <div class="alert alert-dismissible alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>Došlo je do greške prilikom prijave. </strong> Promjenite podatke za prijavu i probajte ponovno.
+                </div>
+            }
+            <i class="fas fa-user-md" style="font-size:170px;color:#d4e6f9"></i>
+            <p></p>
+            Prijavite se na sustav uporabom postojećeg korisničkog računa.
+        </div>
+        <br/>
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <form asp-controller="Login" asp-action="Login" method="post">
+                        @if (Model != null && Model.FailUser)
+                        {
+                            <div class="form-group has-danger">
+                                Korisničko ime:
+                                <input type="text" name="user" class="form-control is-invalid">
+                                <div class="invalid-feedback">Neispravno korisničko ime</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                Korisničko ime:
+                                <input type="text" name="user" class="form-control" placeholder="Unesite korisničko ime">
+                            </div>
+                        }
+                        @if (Model != null && Model.FailPass)
+                        {
+                            <div class="form-group has-danger">
+                                Lozinka:
+                                <input type="password" name="pass" class="form-control is-invalid">
+                                <div class="invalid-feedback">Neispravna lozinka.</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                Lozinka:
+                                <input type="password" name="pass" class="form-control" placeholder="Unesite lozinku">
+                            </div>
+                        }
+
+                        <div class="center">
+                            <input type="submit" value="Prijava" class=" btn btn-secondary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </div>
+</div>
